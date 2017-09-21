@@ -15,7 +15,7 @@ class BalanceSpring:
         '''
 
         self.options = { 'angle unit':       'rad', \
-                         'delimiter':         ' ', \
+                         'delimiter':         None, \
                          'polynomial degree': 9, \
                          'data type': 'moment' }
         for key in options:
