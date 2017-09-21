@@ -15,7 +15,7 @@ class BalanceSpring:
         '''
 
         self.options = { 'angle unit':       'rad', \
-                         'delimiter':         ' ', \
+                         'delimiter':         None, \
                          'polynomial degree': 9, \
                          'data type': 'moment' }
         for key in options:
@@ -35,6 +35,8 @@ class BalanceSpring:
         self.VPoly[0] = 0
         self.VPoly[1] = 0
 
+        self.frequency = np.vectorize(self.frequency1)
+
 
     def amplitude(self, energy):
         # we compute the 2 real roots closest to 0
@@ -50,12 +52,22 @@ class BalanceSpring:
                 rminus = r
         return [rminus, rplus]
 
-    def frequency(self, energy):
+    def amplitude_positive(self, energy):
+        temp, _ = self.amplitude(energy)
+        return temp
+
+    def frequency1(self, energy):
         x1, x2 = self.amplitude(energy)
         def f(x):
             return 1. / np.sqrt( energy-Poly.polyval(x, self.VPoly) )
         integral = quad(f, x1, x2)
         return 1. / ( np.sqrt(2*self.inertia) * integral[0] )
+
+    def angle_with_unit(self, angle_in_rad):
+        if self.options['angle unit'] == 'rad':
+            return angle_in_rad
+        elif self.options['angle unit'] == 'deg':
+            return angle_in_rad * np.pi / 180.
 
 N = 100
 fname = 'temp.txt'
