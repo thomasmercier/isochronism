@@ -30,7 +30,7 @@ class BalanceSpring:
         if self.options['data type'] == 'moment':
             temp = Poly.polyfit(data[:,0], data[:,1], self.deg-1)
             self.VPoly = Poly.polyint(temp)
-        elif self.options['data type'] == 'moment':
+        elif self.options['data type'] == 'potential':
             self.VPoly = Poly.polyfit(data[:,0], data[:,1], self.deg)
         self.VPoly[0] = 0
         self.VPoly[1] = 0
@@ -68,15 +68,3 @@ class BalanceSpring:
             return angle_in_rad
         elif self.options['angle unit'] == 'deg':
             return angle_in_rad * np.pi / 180.
-
-N = 100
-fname = 'temp.txt'
-a = np.empty((100, 2))
-a[:,0] = np.linspace(-10, 10, 100)
-a[:,1] = np.linspace(-10, 10, 100)
-np.savetxt(fname, a)
-
-
-I = 1. / 4. / np.pi**2
-bs = BalanceSpring(I, fname)
-print(bs.frequency(50))

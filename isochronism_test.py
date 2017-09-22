@@ -1,4 +1,5 @@
 import isochronism
+import numpy as np
 
 N = 100
 fname = 'temp.txt'
@@ -9,5 +10,5 @@ np.savetxt(fname, a)
 
 
 I = 1. / 4. / np.pi**2
-bs = BalanceSpring(I, fname)
+bs = isochronism.BalanceSpring(I, fname)
 print(bs.frequency(50))
